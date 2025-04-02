@@ -41,6 +41,5 @@ app.post('/create', async (req, res) => {
   }
 });
 
-// const PORT = process.env.PORT
-const PORT = 3001;
+const PORT = process.env.PORT;
 app.listen(PORT, () => console.log('server running using port: ' + PORT));

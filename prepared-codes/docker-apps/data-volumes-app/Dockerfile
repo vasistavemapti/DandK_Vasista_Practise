@@ -7,9 +7,8 @@ COPY package.json .
 RUN npm install
 
 COPY . .
-# ARG DEFAULT_PORT=80
-# ENV PORT ${DEFAULT_PORT}
-# ENV PORT=3000   
-EXPOSE 3001
+ARG PORT_NUMBER=3001
+ENV PORT =  ${PORT_NUMBER}
+EXPOSE ${PORT_NUMBER}
 
 CMD [ "node", "server.js" ]
