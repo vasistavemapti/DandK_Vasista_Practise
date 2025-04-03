@@ -68,8 +68,8 @@ app.get('/people', async (req, res) => {
 });
 // app.listen(3000, () => console.log('server is running on port 3000'))
 mongoose.connect(
-  //'mongodb://localhost:27017/swfavorites',
-  //'mongodb://172.17.0.2:27017/swfavorites',
+  // 'mongodb://localhost:27017/swfavorites',
+  // 'mongodb://172.17.0.2:27017/swfavorites',
   'mongodb://mongoserver:27017/swfavorites',
   { useNewUrlParser: true }
 ).then(

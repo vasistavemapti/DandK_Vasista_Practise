@@ -1,7 +1,7 @@
 POST http://localhost:3000/favorites
 Content-Type: application/json
 
-{
+{m
     "type":"movie",
     "name":"A New Hope",
     "url":"https://swapi.dev/api/films/1/"
