@@ -9,9 +9,13 @@ const morgan = require('morgan');
 const Goal = require('./models/goal');
 
 const PORT = process.env.PORT
+
 const MONGODB_USERNAME = process.env.MONGODB_USERNAME
+
 const MONGODB_PASSWORD = process.env.MONGODB_PASSWORD
-const MONGO_DNSNAME = process.env.MONGO_DNSNAME
+
+const MONGO_DNSNAME = process.env.MONGO_DNSNAME;
+
 const app = express();
 
 const accessLogStream = fs.createWriteStream(

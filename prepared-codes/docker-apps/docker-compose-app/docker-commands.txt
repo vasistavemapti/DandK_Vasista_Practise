@@ -4,13 +4,29 @@ Create Network
 
 docker network create goals-net
 
+-----------------------------
+create named volumes
+-----------------------------------
+docker volume create data
+docker volume create logs
+
 ---------------------
-Run MongoDB Container
+Run MongoDB Container (inside docker-compose-app folder)
 ---------------------
 
 docker run --name mongodb \
-  -e MONGO_INITDB_ROOT_USERNAME=vasista \
+  -e MONGO_INITDB_ROOT_USERNAME=joydip \
   -e MONGO_INITDB_ROOT_PASSWORD=secret \
+  -v data:/data/db \
+  --rm \
+  -d \
+  --network goals-net \
+  mongo
+ 
+ or
+
+  docker run --name mongodb \
+  --env-file ./env/mongo.env \
   -v data:/data/db \
   --rm \
   -d \
@@ -18,7 +34,7 @@ docker run --name mongodb \
   mongo
 
 ---------------------
-Build Node API Image
+Build Node API Image (inside backend folder)
 ---------------------
 
 docker build -t goals-node .
@@ -30,8 +46,24 @@ Run Node API Container
 docker run --name goals-backend \
   -e MONGODB_USERNAME=joydip \
   -e MONGODB_PASSWORD=secret \
+  -e PORT=3001 \ 
+  -e MONGO_DNSNAME=mongodb
   -v logs:/app/logs \
-  -v D:/my-applications/docker-apps/docker-compose-app/backend:/app \
+  -v D:/training/siemens-docker-k8s-training-2ndApril2025/codes/day-2/docker-compose-app\backend:/app \
+  -v /app/node_modules \
+  --rm \
+  -d \
+  --network goals-net \
+  -p 3001:3001 \
+  goals-node
+
+or
+
+  docker run --name goals-backend \
+  --env-file ../env/backend.env
+  -e MONGO_DNSNAME=mongodb
+  -v logs:/app/logs \
+  -v D:/training/siemens-docker-k8s-training-2ndApril2025/codes/day-2/docker-compose-app/backend:/app \
   -v /app/node_modules \
   --rm \
   -d \
@@ -40,7 +72,7 @@ docker run --name goals-backend \
   goals-node
 
 ---------------------
-Build React SPA Image
+Build React SPA Image (inside frontend folder)
 ---------------------
 
 docker build -t goals-react .
@@ -50,7 +82,7 @@ Run React SPA Container
 ---------------------
 
 docker run --name goals-frontend \
-  -v D:/my-applications/docker-apps/docker-compose-app/frontend/src:/app/src \
+  -v D:/training/siemens-docker-k8s-training-2ndApril2025/codes/day-2/docker-compose-app/frontend/src:/app/src \
   --rm \
   -d \
   -p 3000:3000 \
